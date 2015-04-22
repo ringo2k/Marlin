@@ -1269,6 +1269,7 @@ void refresh_cmd_timeout(void)
 #endif //FWRETRACT
 
 #ifdef ENABLE_AUTO_BED_LEVELING
+
 //
 // Method to dock/undock a sled designed by Charles Bell.
 //
@@ -1636,11 +1637,11 @@ void process_commands()
 #endif // Z_PROBE_SLED
             st_synchronize();
             // make sure the bed_level_rotation_matrix is identity or the planner will get it incorectly
-            //vector_3 corrected_position = plan_get_position_mm();
-            //corrected_position.debug("position before G29");
+            vector_3 corrected_position = plan_get_position();
+            corrected_position.debug("position before G29");
             plan_bed_level_matrix.set_to_identity();
             vector_3 uncorrected_position = plan_get_position();
-            //uncorrected_position.debug("position durring G29");
+            uncorrected_position.debug("position durring G29");
             current_position[X_AXIS] = uncorrected_position.x;
             current_position[Y_AXIS] = uncorrected_position.y;
             current_position[Z_AXIS] = uncorrected_position.z;
@@ -4152,15 +4153,14 @@ static uint32_t stat_update = 0;
 void handle_status_leds(void) {
   float max_temp = 0.0;
   if(millis() > stat_update) {
+    pinMode(STAT_LED_RED,OUTPUT);
     stat_update += 500; // Update every 0.5s
     for (int8_t cur_extruder = 0; cur_extruder < EXTRUDERS; ++cur_extruder) {
        max_temp = max(max_temp, degHotend(cur_extruder));
        max_temp = max(max_temp, degTargetHotend(cur_extruder));
     }
-    #if defined(TEMP_BED_PIN) && TEMP_BED_PIN > -1
       max_temp = max(max_temp, degTargetBed());
       max_temp = max(max_temp, degBed());
-    #endif
     if((max_temp > 55.0) && (red_led == false)) {
       digitalWrite(STAT_LED_RED, 1);
       digitalWrite(STAT_LED_BLUE, 0);
