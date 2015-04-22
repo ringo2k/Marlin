@@ -108,7 +108,7 @@ void  CardReader::lsDive(const char *prepend,SdFile parent)
       
       if(!filenameIsDir)
       {
-        if(p.name[8]!='G') continue;
+        //if(p.name[8]!='G') continue;
         if(p.name[9]=='~') continue;
       }
       //if(cnt++!=nr) continue;
