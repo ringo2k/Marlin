@@ -522,6 +522,10 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 #endif
 
 
+// CNC/ LASER Addon
+#define CNCTOOLSENABLED 1
+#define CNCTOOLPIN_NUMBER 4 //D4
+
 // EEPROM
 // The microcontroller can store settings in the EEPROM, e.g. max velocity...
 // M500 - stores parameters in EEPROM

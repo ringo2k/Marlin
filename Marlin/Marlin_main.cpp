@@ -555,6 +555,10 @@ void setup()
   st_init();    // Initialize stepper, this enables interrupts!
   setup_photpin();
   servo_init();
+  
+#ifdef CNCTOOLSENABLED
+   pinMode(CNCTOOLPIN_NUMBER, OUTPUT);
+#endif 
 
   lcd_init();
   _delay_ms(1000);	// wait 1sec to display the splash screen
@@ -1863,6 +1867,14 @@ void process_commands()
       }
       LCD_MESSAGEPGM(MSG_RESUMING);
     }
+    break;
+#endif
+#ifdef CNCTOOLSENABLED
+    case 3: // M3 activate laser
+        digitalWrite(CNCTOOLPIN_NUMBER, HIGH);
+    break;
+    case 5: // M5 deactivate laser
+        digitalWrite(CNCTOOLPIN_NUMBER, LOW);
     break;
 #endif
     case 17:
